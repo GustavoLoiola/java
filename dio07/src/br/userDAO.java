@@ -9,12 +9,11 @@ import exception.UserNotFoundException;
 public class UserDAO {
 
     private final List<UserModel> models = new ArrayList<>();
-
     private long nextID = 1L;
 
     public UserModel save(final UserModel model) {
-        models.setID(nextID++);
-        models.add(models);
+        model.setId(nextID++); // define ID no objeto
+        models.add(model);     // adiciona o usuário na lista
         return model;
     }
 
@@ -32,12 +31,14 @@ public class UserDAO {
 
     public UserModel findById(final long id) {
         var message = String.format("Não existe nenhum usuário com o ID: %s cadastrado!", id);
-        return models.stream().filter(u -> u.getId() == id)
-        .findFirst()
-        .orElseThrow(() -> new UserNotFoundException(message));
+
+        return models.stream()
+                .filter(u -> u.getId() == id)
+                .findFirst()
+                .orElseThrow(() -> new UserNotFoundException(message));
     }
 
-    public List<UserModel>  findAll() {
+    public List<UserModel> findAll() {
         return models;
     }
 }

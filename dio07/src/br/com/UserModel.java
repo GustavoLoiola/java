@@ -10,24 +10,18 @@ public class UserModel {
     private OffsetDateTime birthday;
 
 
-    public UserModel(long id, String name, String email, OffsetDateTime birthday) {
+    public UserModel(Long id, String name, String email, OffsetDateTime birthday) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.birthday = birthday;
     }
 
-
-    public UserModel() {
-
-    }
-
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -35,7 +29,7 @@ public class UserModel {
         return name;
     }
 
-    public void setNome(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -55,7 +49,7 @@ public class UserModel {
         this.birthday = birthday;
     }
 
-    // equals e hashCode
+    
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
