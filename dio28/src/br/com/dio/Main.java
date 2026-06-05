@@ -9,6 +9,7 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static br.com.dio.util.BoardTemplate.BOARD_TEMPLATE;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
@@ -57,24 +58,28 @@ public class Main {
     }
 
     private static void startGame(final Map<String, String> positions) {
-        if(nonNull(board)) {
+        if (nonNull(board)) {
             System.out.println("O jogo já foi iniciado!");
             return;
         }
+
         List<List<Space>> spaces = new ArrayList<>();
-        for (int i = 0; i < BOARD_LIMIT ; i++) {
+
+        for (int i = 0; i < BOARD_LIMIT; i++) {
             spaces.add(new ArrayList<>());
+
             for (int j = 0; j < BOARD_LIMIT; j++) {
                 var positionConfig = positions.get("%s,%s".formatted(i, j));
-                var expected = Integer.parseInt(positionConfig.split(";")[0]);
-                var fixed = Boolean.parseBoolean(positionConfig.split(";")[1]);
+
+                var expected = Integer.parseInt(positionConfig.split(",")[0]);
+                var fixed = Boolean.parseBoolean(positionConfig.split(",")[1]);
+
                 var currentSpace = new Space(expected, fixed);
                 spaces.get(i).add(currentSpace);
             }
         }
 
         board = new Board(spaces);
-        System.out.println("O jogo está pronto para começar!");
     }
 
     private static void inputNumber() {
@@ -117,16 +122,76 @@ public class Main {
         }
     }
 
-    private static void finishGame() {
-    }
+    private static void showCurrentGame() {
+        if(isNull(board)) {
+            System.out.println("O jogo ainda não foi iniciado!");
+            return;
+        }
 
-    private static void clearGame() {
+        var args = new Object[81];
+        var argPos = 0;
+
+        for (int i = 0; i < BOARD_LIMIT; i++) {
+            for (var col: board.getSpaces()) {
+                args[argPos ++] = " " + (isNull(col.get(i).getActual()) ? " " : col.get(i).getActual());
+            }
+        }
+        System.out.println("O seu jogo se encontra da seguinte forma:");
+        System.out.printf((BOARD_TEMPLATE) + "%n", args);
     }
 
     private static void showGameStatus() {
+        if(isNull(board)) {
+            System.out.println("O jogo ainda não foi iniciado!");
+            return;
+        }
+        System.out.printf("O jogo atual se encontra com os status: %s%n", board.getStatus().getLabel());
+        if(board.hasErrors()) {
+            System.out.println("O jogo contém erros!");
+        }
+        else {
+            System.out.println("O jogo não contém erros!");
+        }
+
     }
 
-    private static void showCurrentGame() {
+    private static void clearGame() {
+        if(isNull(board)) {
+            System.out.println("O jogo ainda não foi iniciado!");
+            return;
+        }
+
+        System.out.println("Você realmente deseja limpar o jogo e perder todo o seu progresso?");
+        var confirm = scanner.next();
+
+        while (!confirm.equalsIgnoreCase("sim") && !confirm.equalsIgnoreCase("não")) {
+            System.out.println("Por favor digite Sim ou Não.");
+            confirm = scanner.next();
+        }
+
+        if(confirm.equalsIgnoreCase("sim")) {
+            board.reset();
+        }
+    }
+
+
+    private static void finishGame() {
+        if(isNull(board)) {
+            System.out.println("O jogo ainda não foi iniciado!");
+            return;
+        }
+
+        if(board.gameIsFinished()) {
+            System.out.println("Parabéns!!! Você concluiu o jogo!");
+            showCurrentGame();
+            board = null;
+        }
+        else if(board.hasErrors()) {
+            System.out.println("Não foi possível concluir o jogo pois ele contém erros! Verifique seu progresso novamente.");
+        }
+        else {
+            System.out.println("Não foi possível concluir o jogo ele está incompleto!  Verifique seu progresso novamente.");
+        }
     }
 
     private static int runUnitGetValueNumber(final int min, final int max) {
