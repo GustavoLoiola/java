@@ -22,7 +22,7 @@ public class Main {
     private final static int BOARD_LIMIT = 9;
 
     public static void main(String[] args) {
-        final var positions = Stream.of(args)
+        final var gameConfig = Stream.of(args)
                 .collect(Collectors.toMap(
                         k -> k.split(";")[0],
                         v -> v.split(";")[1]
@@ -44,7 +44,7 @@ public class Main {
             option = scanner.nextInt();
 
             switch (option) {
-                case 1 -> startGame(positions);
+                case 1 -> startGame(gameConfig);
                 case 2 -> inputNumber();
                 case 3 -> removeNumber();
                 case 4 -> showCurrentGame();
