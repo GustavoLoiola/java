@@ -87,12 +87,12 @@ public class MainScreen {
     }
 
     private void addCheckGameStatusButton(final JPanel mainPanel) {
-        checkGameStatusButton = new CheckGameStatusButoon(e ->{
-            var hasErros = boardService.hasErrros();
+        checkGameStatusButton = new CheckGameStatusButton(e ->{
+            var hasErros = boardService.hasErros();
             var gameStatus = boardService.getStatus();
             var message = switch (gameStatus) {
                 case NON_STARTED -> "O jogo ainda não foi iniciado!";
-                case IMCOMPLETE -> "O jogo está incompleto!";
+                case INCOMPLETE -> "O jogo está incompleto!";
                 case COMPLETE -> "O jogo está completo!";
             };
             message += hasErros ? "e contém erros" : "e não contém erros";
