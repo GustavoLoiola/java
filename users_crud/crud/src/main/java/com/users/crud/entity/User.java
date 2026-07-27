@@ -1,8 +1,9 @@
 package com.users.crud.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.*;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
@@ -17,11 +18,14 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Getter
     private String name;
 
-    @Column(unique = true, nullable = false)
+    @Getter
+    @Column(nullable = false, unique = true)
     private String email;
 
+    @Getter
     private LocalDate birthDate;
 
     @Column(nullable = false, length = 255)
@@ -31,22 +35,16 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private UserRole role;
 
+    public User() {
+    }
+
     public User(String email, String password, UserRole role) {
         this.email = email;
         this.password = password;
         this.role = role;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.role == UserRole.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
-        else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
-    }
-
-
-    public User() {}
-
-    public User(Long id, String name,String email, LocalDate birthDate, String password, UserRole role){
+    public User(Long id, String name, String email, LocalDate birthDate, String password, UserRole role) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -55,40 +53,23 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    public Long getId() {
-        return id;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (this.role == UserRole.ADMIN) {
+            return List.of(
+                    new SimpleGrantedAuthority("ROLE_ADMIN"),
+                    new SimpleGrantedAuthority("ROLE_USER")
+            );
+        }
+
+        return List.of(
+                new SimpleGrantedAuthority("ROLE_USER")
+        );
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
-
+    @Override
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     @Override
@@ -96,15 +77,49 @@ public class User implements UserDetails {
         return this.email;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public UserRole getRole() {
-        return role;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
     public void setRole(UserRole role) {
         this.role = role;
     }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 }
