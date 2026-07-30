@@ -18,7 +18,7 @@
     <description>EasyConvert - Plataforma de conversao de arquivos (PDF para DOCX e DOCX para PDF)</description>
 
     <properties>
-        <java.version>25</java.version>
+        <java.version>17</java.version>
         <jjwt.version>0.12.6</jjwt.version>
     </properties>
 
