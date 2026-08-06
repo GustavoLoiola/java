@@ -2,7 +2,6 @@ package com.easyconvert.service.conversion.conversion;
 
 import com.easyconvert.exception.FileConversionException;
 import org.springframework.beans.factory.annotation.Value;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -41,6 +40,10 @@ public abstract class AbstractLibreOfficeConverter implements ConversionStrategy
                     .redirectErrorStream(true)
                     .start();
 
+// Captura a saida do processo (stdout + stderr, ja mesclados) para
+// diagnostico - o LibreOffice normalmente explica o motivo da falha aqui.
+            String processOutput = new String(process.getInputStream().readAllBytes());
+
             boolean finishedInTime =
                     process.waitFor(timeoutSeconds, TimeUnit.SECONDS);
 
@@ -53,7 +56,7 @@ public abstract class AbstractLibreOfficeConverter implements ConversionStrategy
 
             if (process.exitValue() != 0) {
                 throw new FileConversionException(
-                        "Erro durante a conversão do arquivo."
+                        "Erro durante a conversão do arquivo. Saida do processo: " + processOutput
                 );
             }
 
