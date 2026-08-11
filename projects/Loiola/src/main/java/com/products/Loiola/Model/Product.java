@@ -13,13 +13,14 @@ public class Product {
 
     @Column(unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
 
     @Column(nullable = false)
     private String name;
 
     @Column(nullable = true)
-    private String desc;
+    private String description;
 
     @Column(nullable = false)
     private double price;

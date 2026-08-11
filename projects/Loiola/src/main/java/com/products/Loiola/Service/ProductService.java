@@ -31,7 +31,7 @@ public class ProductService {
         Product exists = findById(id);
 
         exists.setName(product.getName());
-        exists.setDesc(product.getDesc());
+        exists.setDescription(product.getDescription());
         exists.setPrice(product.getPrice());
         exists.setQuantity(product.getQuantity());
 
