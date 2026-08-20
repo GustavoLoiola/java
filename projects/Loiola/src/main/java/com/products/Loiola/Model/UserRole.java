@@ -1,4 +1,4 @@
-package com.products.Loiola.Repository;
+package com.products.Loiola.Model;
 
 import org.springframework.security.core.GrantedAuthority;
 

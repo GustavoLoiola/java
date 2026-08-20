@@ -1,4 +1,4 @@
 package com.products.Loiola.DTO;
 
-public class LoginResponse {
+public record LoginResponse(String token) {
 }

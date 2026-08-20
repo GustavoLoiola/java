@@ -1,6 +1,5 @@
 package com.products.Loiola.Model;
 
-import com.products.Loiola.Repository.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,11 +22,14 @@ public class User {
     private String email;
 
     @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
     private String phone;
 
     @Column(nullable = false)
     private UserRole role;
 
-    @Column(nullable = false)
-    private String password;
+    public User(String name, String email, String encryptedPassword, String phone, UserRole role) {
+    }
 }

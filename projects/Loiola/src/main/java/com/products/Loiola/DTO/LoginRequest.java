@@ -1,4 +1,5 @@
 package com.products.Loiola.DTO;
 
-public class LoginRequest {
+public record LoginRequest( String email, String password) {
+
 }
