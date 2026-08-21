@@ -13,10 +13,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
+@RequestMapping("/auth")
 public class AuthController {
+
     @Autowired
     AuthenticationManager authenticationManager;
 
@@ -31,7 +35,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest data) {
-        var userNamePassword = new UsernamePasswordAuthenticationToken(data.email());
+        var userNamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
         var auth = this.authenticationManager.authenticate(userNamePassword);
 
         var token = this.authService.generateToken((User) auth.getPrincipal());
@@ -61,5 +65,4 @@ public class AuthController {
 
         return ResponseEntity.ok("Usuário registrado com sucesso!");
     }
-}
 }

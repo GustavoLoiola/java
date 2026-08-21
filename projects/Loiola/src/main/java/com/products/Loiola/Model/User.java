@@ -10,25 +10,26 @@ import lombok.Setter;
 @Setter
 @Table(name = "users")
 public class User {
-    @Column(unique = true, nullable = false)
+    @Column(name = "user_id", unique = true, nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
+    private Long id;
 
-    @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(nullable = false)
-    private String password;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    @Column(nullable = false)
+    @Column(name = "phone", nullable = false)
     private String phone;
 
-    @Column(nullable = false)
+    @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
     private UserRole role;
+
+    @Column(name = "password", nullable = false)
+    private String password;
 
     public User(String name, String email, String encryptedPassword, String phone, UserRole role) {
     }

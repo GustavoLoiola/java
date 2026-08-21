@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.Optional;
 
 @Service
 public class AuthService implements UserDetailsService {
@@ -24,21 +23,15 @@ public class AuthService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-    // Chave secreta definida no application.properties ou valor padrão
     @Value("${api.security.token.secret:my-secret-key}")
     private String secret;
 
-    // Método obrigatório do Spring Security para carregar o usuário no login
     @Override
-    public Object loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByEmail(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("Usuário não encontrado com o e-mail: " + username);
-        }
-        return user;
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return (UserDetails) userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado: " + email));
     }
 
-    // Método para gerar o Token JWT
     public String generateToken(User user) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
@@ -52,7 +45,6 @@ public class AuthService implements UserDetailsService {
         }
     }
 
-    // Método para validar o Token JWT e recuperar o e-mail do usuário
     public String validateToken(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
@@ -66,7 +58,6 @@ public class AuthService implements UserDetailsService {
         }
     }
 
-    // Define expiração do token para 2 horas no fuso horário de Brasília (-03:00)
     private Instant generateExpirationDate() {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
