@@ -15,11 +15,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "name", nullable = false)
+    private String name;
+
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "password", nullable = false)
+    private String password;
 
     @Column(name = "phone", nullable = false)
     private String phone;
@@ -28,9 +31,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @Column(name = "password", nullable = false)
-    private String password;
 
-    public User(String name, String email, String encryptedPassword, String phone, UserRole role) {
+    public User() {
     }
 }

@@ -16,22 +16,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    AuthService authService;
+    private AuthService authService;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest data) {
@@ -45,21 +44,22 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequest data) {
-        if (this.userRepository.findByEmail(data.email()) != null) {
+        System.out.println("--> DADOS CHEGANDO NO REQUEST: " + data);
+
+        if (this.userRepository.findByEmail(data.email()).isPresent()) {
             return ResponseEntity.badRequest().body("E-mail já cadastrado no sistema.");
         }
 
-        // Criptografa a senha antes de salvar
         String encryptedPassword = passwordEncoder.encode(data.password());
 
-        // Construtor: (name, email, password, phone, role)
-        User newUser = new User(
-                data.name(),
-                data.email(),
-                encryptedPassword,
-                data.phone(),
-                data.role()
-        );
+        User newUser = new User();
+        newUser.setName(data.name());
+        newUser.setEmail(data.email());
+        newUser.setPassword(encryptedPassword);
+        newUser.setPhone(data.phone());
+        newUser.setRole(data.role());
+
+        System.out.println("EMAIL ATRIBUÍDO NO USER: " + newUser.getEmail());
 
         this.userRepository.save(newUser);
 
