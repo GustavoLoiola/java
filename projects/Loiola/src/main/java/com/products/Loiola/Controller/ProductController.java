@@ -2,6 +2,7 @@ package com.products.Loiola.Controller;
 
 import com.products.Loiola.Model.Product;
 import com.products.Loiola.Service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public class ProductController {
     private final ProductService service;
 
 
-    public ProductController(ProductService service) {
+    public ProductController(@Valid ProductService service) {
         this.service = service;
     }
 
