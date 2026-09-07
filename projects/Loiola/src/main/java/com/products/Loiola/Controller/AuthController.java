@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.products.Loiola.Model.UserRole.USER;
+
 @RestController
 @RequestMapping("/auth")
 
@@ -59,7 +61,7 @@ public class AuthController {
         newUser.setEmail(data.email());
         newUser.setPassword(encryptedPassword);
         newUser.setPhone(data.phone());
-        newUser.setRole(data.role());
+        newUser.setRole(USER);
 
         System.out.println("EMAIL ATRIBUÍDO NO USER: " + newUser.getEmail());
 

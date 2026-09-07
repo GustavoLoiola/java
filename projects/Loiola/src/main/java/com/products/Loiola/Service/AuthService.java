@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.products.Loiola.DTO.RegisterRequest;
 import com.products.Loiola.Model.User;
 import com.products.Loiola.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,16 @@ public class AuthService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado: " + email));
     }
 
-    public String generateToken(User user) {
+    public void register(RegisterRequest data) {
+
+        if (userRepository.findByEmail(data.email()).isPresent()) {
+            throw new RuntimeException(
+                    "Já existe um usuário com esse Email cadastrado no sistema."
+            );
+        }
+    }
+
+        public String generateToken(User user) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()

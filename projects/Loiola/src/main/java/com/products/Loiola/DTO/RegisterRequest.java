@@ -19,8 +19,10 @@ public record RegisterRequest(
                 message = "A senha deve conter pelo menos uma letra maiúscula, uma minúscula, um número e um caractere especial"
         )
         String password,
-        @Size(min = 11, max = 11, message = "O número de telefone deve conter exatamente 11 números incluindo o ddd.")
-        String phone,
-        UserRole role) {
+        @Pattern(
+                regexp = "^$|^[0-9]{11}$",
+                message = "O telefone deve conter exatamente 11 números."
+        )
+        String phone) {
 
 }
