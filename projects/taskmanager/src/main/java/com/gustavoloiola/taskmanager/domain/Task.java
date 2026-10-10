@@ -1,10 +1,15 @@
 package com.gustavoloiola.taskmanager.domain;
 
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.util.Assert;
 
 import java.util.Optional;
 
+@Getter
+@Setter
 public class Task {
     private TaskId id;
     private String titte;
@@ -18,5 +23,8 @@ public class Task {
         this.titte = titte;
         this.description = description;
         this.status = TaskStatus.PENDING;
+    }
+
+    public Task(String title, String description) {
     }
 }
