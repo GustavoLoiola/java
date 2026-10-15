@@ -2,7 +2,6 @@ package com.gustavoloiola.taskmanager.domain;
 
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.util.Assert;
 
@@ -25,6 +24,12 @@ public class Task {
         this.status = TaskStatus.PENDING;
     }
 
-    public Task(String title, String description) {
-    }
+   public void update(Optional<String> tittle,
+                      Optional<String> description,
+                      Optional<TaskStatus> status) {
+        tittle.ifPresent(this::setTitte);
+        description.ifPresent(d -> this.setDescription(Optional.of(d)));
+        status.ifPresent(this::setStatus);
+   }
+
 }
