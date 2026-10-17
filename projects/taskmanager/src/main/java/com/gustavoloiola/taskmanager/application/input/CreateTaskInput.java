@@ -1,4 +1,6 @@
 package com.gustavoloiola.taskmanager.application.input;
 
-public record CreateTaskInput(String title, String description) {
+import java.util.Optional;
+
+public record CreateTaskInput(String title, Optional<String> description) {
 }

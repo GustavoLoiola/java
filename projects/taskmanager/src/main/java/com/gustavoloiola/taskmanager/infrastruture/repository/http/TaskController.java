@@ -1,8 +1,10 @@
 package com.gustavoloiola.taskmanager.infrastruture.repository.http;
 
 import com.gustavoloiola.taskmanager.application.CreateTaskUseCase;
-import com.gustavoloiola.taskmanager.application.input.CreateTaskInput;
+import com.gustavoloiola.taskmanager.infrastruture.repository.http.request.CreateTaskRequest;
+import com.gustavoloiola.taskmanager.infrastruture.repository.http.response.TaskResponse;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,8 +18,9 @@ public class TaskController {
     }
 
     @PostMapping
-    void create() {
-       var input = new CreateTaskInput("Estudar", "2 horas de estudos");
-       createTaskUseCase.execute(input);
+    TaskResponse create(@RequestBody CreateTaskRequest request) {
+       var input = request.toInput();
+       var output = createTaskUseCase.execute(input);
+       return TaskResponse.from(output);
     }
 }
