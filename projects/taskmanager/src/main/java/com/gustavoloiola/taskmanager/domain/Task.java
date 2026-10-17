@@ -24,7 +24,8 @@ public class Task {
         this.status = TaskStatus.PENDING;
     }
 
-    public Task(String title, String description) {
+    public Task(String title, Optional<String> description) {
+        this(new TaskId(), title, description, TaskStatus.PENDING);
     }
 
     public void update(Optional<String> tittle,

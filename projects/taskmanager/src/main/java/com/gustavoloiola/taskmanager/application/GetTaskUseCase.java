@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class GetTaskUserCase {
+public class GetTaskUseCase {
     private final TaskRepository repository;
 
-    public GetTaskUserCase(TaskRepository repository) {
+    public GetTaskUseCase(TaskRepository repository) {
         this.repository = repository;
     }
 
