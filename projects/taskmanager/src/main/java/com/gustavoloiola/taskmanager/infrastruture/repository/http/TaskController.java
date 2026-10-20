@@ -3,7 +3,9 @@ package com.gustavoloiola.taskmanager.infrastruture.repository.http;
 import com.gustavoloiola.taskmanager.application.*;
 import com.gustavoloiola.taskmanager.domain.TaskId;
 import com.gustavoloiola.taskmanager.infrastruture.repository.http.request.CreateTaskRequest;
+import com.gustavoloiola.taskmanager.infrastruture.repository.http.request.UpdateTaskRequest;
 import com.gustavoloiola.taskmanager.infrastruture.repository.http.response.TaskResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +30,7 @@ public class TaskController {
     }
 
     @PostMapping
-    TaskResponse create(@RequestBody CreateTaskRequest request) {
+    TaskResponse create(@RequestBody @Valid CreateTaskRequest request) {
        var input = request.toInput();
        var output = createTaskUseCase.execute(input);
        return TaskResponse.from(output);
@@ -52,7 +54,7 @@ public class TaskController {
     }
 
     @PatchMapping("/{id}")
-    TaskResponse update(@PathVariable UUID id, @RequestBody CreateTaskRequest request) {
+    TaskResponse update(@PathVariable UUID id, @RequestBody UpdateTaskRequest request) {
         var input = request.toInput();
         var output = updateTaskUseCase.execute(new TaskId(id), input);
         return TaskResponse.from(output);

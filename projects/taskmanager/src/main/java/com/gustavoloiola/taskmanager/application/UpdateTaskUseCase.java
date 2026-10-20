@@ -15,10 +15,10 @@ public class UpdateTaskUseCase {
         this.repository = repository;
     }
 
-    public TaskOutput execute(TaskId taskId, UpdateTaskInput input) {
+    public TaskOutput execute(TaskId taskId,UpdateTaskInput input) {
         var task = repository.findById(taskId).orElseThrow(()-> new TaskNotFoundException(taskId));
-        task.update(input.tittle(), input.description(), input.status());
+        task.update(input.title(), input.description(), input.status());
         var updated = repository.save(task);
-        return TaskOutput.from(task);
+        return TaskOutput.from(updated);
     }
 }
