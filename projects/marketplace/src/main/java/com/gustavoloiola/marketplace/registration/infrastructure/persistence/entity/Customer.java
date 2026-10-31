@@ -1,9 +1,36 @@
 package com.gustavoloiola.marketplace.registration.infrastructure.persistence.entity;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.Instant;
+import java.util.UUID;
+
 
 @Entity
 @Data
+@RequiredArgsConstructor
 public class Customer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private UUID id;
 
+    @NotBlank
+    @Column(nullable = false)
+    private String firstName;
+
+    private String lastName;
+
+    @NotBlank
+    @Column(nullable = false)
+    @Email
+    private String email;
+
+    @CreationTimestamp
+    @Column(nullable = false)
+    private Instant createdOn;
 }
