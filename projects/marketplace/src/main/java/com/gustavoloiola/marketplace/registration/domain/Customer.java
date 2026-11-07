@@ -13,7 +13,7 @@ public class Customer {
         Assert.notNull(name, "O nome não pode ser nulo!");
         Assert.notNull(email, "O e-mail não pode ser nulo!");
         this.id = id;
-        this. name = name;
+        this.name = name;
         this.email = email;
     }
 
