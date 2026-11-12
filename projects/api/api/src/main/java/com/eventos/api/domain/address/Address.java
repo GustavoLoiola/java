@@ -1,17 +1,17 @@
-package com.eventos.api.domain.adress;
+package com.eventos.api.domain.address;
 
 import com.eventos.api.domain.event.Event;
 import jakarta.persistence.*;
 
 import java.util.UUID;
 
-@Table(name = "adress")
+@Table(name = "address")
 @Entity
-public class Adress {
+public class Address {
 
     @GeneratedValue
     @Id
-    private UUID adress_id;
+    private UUID id;
 
     private String uf;
 

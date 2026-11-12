@@ -14,7 +14,7 @@ public class Coupon {
     @Id
     private UUID coupon_id;
 
-    private Integer descount;
+    private Integer discount;
 
     private String code;
 

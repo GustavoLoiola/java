@@ -21,8 +21,7 @@ import java.util.UUID;
 public class Event {
     @Id
     @GeneratedValue
-    private UUID event_id;
-
+    private UUID id;
 
     private String title;
 
